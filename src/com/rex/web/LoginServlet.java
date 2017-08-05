@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +34,7 @@ public class LoginServlet extends HttpServlet{
 		// TODO Auto-generated method stub
 		String userName = req.getParameter("userName");
 		String password = req.getParameter("password");
+		String remember = req.getParameter("remember");
 		HttpSession session = req.getSession();
 		Connection con = null;
 		try {
@@ -45,10 +47,13 @@ public class LoginServlet extends HttpServlet{
 				System.out.println("User name:"+userName+" Password:"+password);
 				req.getRequestDispatcher("login.jsp").forward(req, resp);
 			} else {
+				if("remember-me".equals(remember)){
+					setCookie(resp,userName, password);
+				}
 				//store the user into session
 				System.out.println("Successfully login!");
 				System.out.println("User name:"+userName+" Password:"+password);
-				session.setAttribute("currentUser", currentUser);
+				session.setAttribute("user", currentUser);
 				resp.sendRedirect("main.jsp");
 			}
 			
@@ -66,6 +71,14 @@ public class LoginServlet extends HttpServlet{
 			}
 		}
 		
+	}
+	
+	private void setCookie(HttpServletResponse resp, String userName, String password){
+		Cookie userNameAndPwd = new Cookie("userNameAndPwd", userName+"-"+password);
+		//store the cookie for 1 week
+		userNameAndPwd.setMaxAge(1*60*60*24*7);
+		resp.addCookie(userNameAndPwd);
+		System.out.println("Successfully set cookie!!!");
 	}
 	
 }
