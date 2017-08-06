@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ page language="java" import="com.rex.model.User" %>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 	if(request.getAttribute("user")==null){
@@ -26,6 +27,8 @@
 <html lang="zh-CN">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>召唤师日记本登录</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/bootstrap3/css/bootstrap.min.css">
 <link rel="stylesheet"
@@ -35,7 +38,7 @@
 </script>
 <script
 	src="${pageContext.request.contextPath }/bootstrap3/js/bootstrap.min.js"></script>
-<title>Insert title here</title>
+
 <style type="text/css">
 	  body {
         padding-top: 200px;
@@ -94,7 +97,7 @@
 <body>
 <div class="container">
       <form name="myForm" class="form-signin" action="login" method="post" onsubmit="return checkInput()">
-        <h2 class="form-signin-heading">召唤师笔记</h2>
+        <h2 class="form-signin-heading">召唤师日记</h2>
         <input id="userName" name="userName" value="${user.userName }"  type="text" class="input-block-level" placeholder="用户名">
         <input id="password" name="password" value="${user.password }"   type="password" class="input-block-level" placeholder="密码" >
         <label class="checkbox" style="padding-left: 22px">

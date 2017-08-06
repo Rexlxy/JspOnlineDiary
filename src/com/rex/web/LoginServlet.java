@@ -32,6 +32,7 @@ public class LoginServlet extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		req.setCharacterEncoding("utf-8");
 		String userName = req.getParameter("userName");
 		String password = req.getParameter("password");
 		String remember = req.getParameter("remember");
@@ -54,7 +55,7 @@ public class LoginServlet extends HttpServlet{
 				System.out.println("Successfully login!");
 				System.out.println("User name:"+userName+" Password:"+password);
 				session.setAttribute("user", currentUser);
-				resp.sendRedirect("main.jsp");
+				resp.sendRedirect("main");
 			}
 			
 		} catch (Exception e) {
