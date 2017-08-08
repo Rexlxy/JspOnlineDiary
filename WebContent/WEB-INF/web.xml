@@ -5,6 +5,7 @@
     <welcome-file>login.jsp</welcome-file>
   
   </welcome-file-list>
+ 
   <servlet>
   <servlet-name>loginServlet</servlet-name>
   <servlet-class>com.rex.web.LoginServlet</servlet-class>
@@ -13,7 +14,7 @@
   <servlet-mapping>
   <servlet-name>loginServlet</servlet-name>
   <url-pattern>/login</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping>	
   
     <servlet>
   <servlet-name>mainServlet</servlet-name>

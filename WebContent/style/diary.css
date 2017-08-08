@@ -18,3 +18,27 @@
 	width:18px;
 	height:18px;
 }
+
+
+.data_list .diary_datas{
+	padding: 5px;
+}
+
+.data_list .diary_datas ul{
+	list-style-type: none;
+}
+
+.data_list .diary_datas ul li{
+	margin-top: 8px;
+	font-size: 15px;
+}
+
+.data_list .diary_datas ul li:hover{
+	background-color: #CCCCCC;
+}
+
+.data_list .datas ul li span{
+	font-size: 18px;
+}
+
+
