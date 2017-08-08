@@ -14,7 +14,10 @@
 	</div>
 
 	<jsp:useBean id="curDiary" class="com.rex.model.Diary" scope="page"></jsp:useBean>
-
+	<nav aria-label="...">
+		<ul class="pager">${pageCode }
+		</ul>
+	</nav>
 
 	<table class="table table-striped table-hover">
 		<thead>
@@ -34,8 +37,12 @@
 					<td><fmt:formatDate pattern="yyyy-MM-dd"
 							value="${diary.releaseDate }" type="date" /></td>
 					<td><span>&nbsp;<a href="#">${diary.title }</a></span></td>
-					<td><span class="label label-primary" style="font-size:12.5px">&nbsp;<%=typeMap.get(curDiary.getTypeId())%></span></td>
+					<td><span class="label label-success"
+						style="font-size: 12.5px">&nbsp;<%=typeMap.get(curDiary.getTypeId())%></span></td>
 				</tr>
 			</c:forEach>
 	</table>
+	<nav aria-label="...">
+		<ul class="pager">${pageCode }</ul>
+	</nav>
 </div>

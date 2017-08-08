@@ -5,6 +5,10 @@
 	margin-top: 15px;
 }
 
+.data_list table tbody tr:hover{
+	background-color:#99CCFF;
+}
+
 .data_list .data_list_title{
 		font-size: 15px;
 		font-weight: bold;
@@ -39,6 +43,18 @@
 
 .data_list .datas ul li span{
 	font-size: 18px;
+}
+
+.data_list .typeOrDate{
+	padding:5px;
+}
+
+.data_list .typeOrDate ul{
+	list-style-type:none;
+}
+
+.data_list .typeOrDate ul li{
+	margin-top:10px;
 }
 
 

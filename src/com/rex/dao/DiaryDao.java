@@ -11,16 +11,23 @@ import java.util.List;
 import java.util.Map;
 
 import com.rex.model.Diary;
+import com.rex.model.PageBean;
 import com.rex.util.DateUtil;
 
 public class DiaryDao {
 
-	public List<Diary> getDiaries(Connection con) throws SQLException, ParseException{
+	// get the list of diary objects
+	public List<Diary> getDiaries(Connection con, PageBean pageBean) throws SQLException, ParseException{
 		List<Diary> diaryList = new ArrayList<Diary>();
 		StringBuffer stringBuffer = new StringBuffer("select * from t_diary t1,t_diarytype t2 where t1.typeId=t2.diaryTypeId ");
 		stringBuffer.append("order by t1.releaseDate DESC");
+		// only query limit amount of items
+		if(pageBean != null){
+			stringBuffer.append(" limit "+pageBean.getStartIndex()+","+pageBean.getPageSize());
+		}
 		PreparedStatement pstmt = con.prepareStatement(stringBuffer.toString());
 		ResultSet rs = pstmt.executeQuery();
+		//add all Diary into the List
 		while(rs.next()){
 			Diary diary = new Diary();
 			diary.setDiaryId(rs.getInt("diary_Id"));
@@ -31,6 +38,18 @@ public class DiaryDao {
 			diaryList.add(diary);
 		}
 		return diaryList;
+	}
+	
+	//get the number of diaries in the table
+	public int getDiaryCount(Connection con) throws SQLException{
+		String sql = "select count(*) as totalCount from t_diary t1,t_diarytype t2 where t1.typeId=t2.diaryTypeId";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		if(rs.next()){
+			return rs.getInt("totalCount");
+		}else {
+			return 0;
+		}
 	}
 	
 	public Map<Integer, String> getTypeMap(Connection con) throws SQLException{

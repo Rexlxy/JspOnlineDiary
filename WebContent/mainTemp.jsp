@@ -82,6 +82,13 @@
 						<img class="img"
 							src="${pageContext.request.contextPath }/images/drawer.png">&nbsp;&nbsp;按日记类别
 					</div>
+					<div class="typeOrDate">
+					<ul>
+					<c:forEach var="diaryType" items="${diaryTypeCountList }">
+						<li><span><a href="#">${diaryType.typeName } (${diaryType.diaryCount })</a></span></li>
+						</c:forEach>
+					</ul>
+					</div>
 				</div>
 				<div class="data_list">
 					<div class="data_list_title">
