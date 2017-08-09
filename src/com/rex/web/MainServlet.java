@@ -51,16 +51,16 @@ public class MainServlet extends HttpServlet {
 		PageBean pageBean = new PageBean(Integer.parseInt(page), Integer.parseInt(PropertiesUtil.getValue("pageSize")));
 		try {
 			con = dbUtil.getConnection();
-			List<Diary> diaryList = diaryDao.getDiaries(con, pageBean);
 			//get total number of diaries
 			int total = diaryDao.getDiaryCount(con);
 			String pageCode = this.genPagination(total, Integer.parseInt(page), pageBean.getPageSize());
 			Map<Integer, String> typeMap = diaryDao.getTypeMap(con);
 			session.setAttribute("diaryTypeCountList", diaryTypeDao.diaryTypeCountList(con));
+			session.setAttribute("diaryCountList",diaryDao.diaryCountList(con));
 			//set request attributes (pass to the page)
+			req.setAttribute("diaryList", diaryDao.getDiaries(con, pageBean));
 			req.setAttribute("pageCode", pageCode);
 			req.setAttribute("typeMap", typeMap);
-			req.setAttribute("diaryList", diaryList);
 			req.setAttribute("mainPage", "/diary/diaryList.jsp");
 			req.getRequestDispatcher("mainTemp.jsp").forward(req, resp);
 		} catch (Exception e) {

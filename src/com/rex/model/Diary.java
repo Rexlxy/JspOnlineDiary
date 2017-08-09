@@ -9,6 +9,8 @@ public class Diary {
 	private String content;
 	private int typeId = -1;
 	private Date releaseDate;
+	private String releaseDateStr;
+	private int diaryCount;
 	public int getDiaryId() {
 		return diaryId;
 	}
@@ -39,7 +41,17 @@ public class Diary {
 	public void setReleaseDate(Date relaseDate) {
 		this.releaseDate = relaseDate;
 	}
-	
-	
+	public String getReleaseDateStr() {
+		return releaseDateStr;
+	}
+	public void setReleaseDateStr(String releaseDateStr) {
+		this.releaseDateStr = releaseDateStr;
+	}
+	public int getDiaryCount() {
+		return diaryCount;
+	}
+	public void setDiaryCount(int diaryCount) {
+		this.diaryCount = diaryCount;
+	}
 	
 }

@@ -52,6 +52,20 @@ public class DiaryDao {
 		}
 	}
 	
+	public List<Diary> diaryCountList(Connection con) throws SQLException{
+		List<Diary> diaryCountList = new ArrayList<Diary>();
+		String sql = "SELECT DATE_FORMAT(releaseDate, '%Y年%m月') AS releaseDateStr, COUNT(DATE_FORMAT(releaseDate, '%Y年%m月')) AS total FROM t_diary GROUP BY DATE_FORMAT(releaseDate, '%Y年%m月') ORDER BY releaseDate DESC";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		while(rs.next()){
+			Diary diary = new Diary();
+			diary.setReleaseDateStr(rs.getString("releaseDateStr"));
+			diary.setDiaryCount(rs.getInt("total"));
+			diaryCountList.add(diary);
+		}
+		return diaryCountList;
+	}
+	
 	public Map<Integer, String> getTypeMap(Connection con) throws SQLException{
 		Map<Integer, String> typeMap = new HashMap<>();
 		String sql = "select * from t_diarytype";

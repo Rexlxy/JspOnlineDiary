@@ -95,6 +95,13 @@
 						<img class="img"
 							src="${pageContext.request.contextPath }/images/calendar.png">&nbsp;&nbsp;按日记时间
 					</div>
+									<div class="typeOrDate">
+					<ul>
+					<c:forEach var="diary" items="${diaryCountList }">
+						<li><span><a href="#">${diary.releaseDateStr } (${diary.diaryCount })</a></span></li>
+						</c:forEach>
+					</ul>
+					</div>
 				</div>
 			</div>
 		</div>

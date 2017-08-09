@@ -22,8 +22,8 @@
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
-				<td>日期</td>
-				<td>日志标题</td>
+				<td width="200px">日期</td>
+				<td width="500px">日志标题</td>
 				<td>日志类别</td>
 			</tr>
 		</thead>
@@ -34,14 +34,14 @@
 				<c:set target="${curDiary }" value="${diary.typeId }"
 					property="typeId"></c:set>
 				<tr>
-					<td><fmt:formatDate pattern="yyyy-MM-dd"
+					<td width="200px"><fmt:formatDate pattern="yyyy-MM-dd"
 							value="${diary.releaseDate }" type="date" /></td>
-					<td><span>&nbsp;<a href="#">${diary.title }</a></span></td>
+					<td width="500px"><span>&nbsp;<a href="#">${diary.title }</a></span></td>
 					<td><span class="label label-success"
 						style="font-size: 12.5px">&nbsp;<%=typeMap.get(curDiary.getTypeId())%></span></td>
 				</tr>
 			</c:forEach>
-	</table>
+			</table>
 	<nav aria-label="...">
 		<ul class="pager">${pageCode }</ul>
 	</nav>
