@@ -6,9 +6,23 @@
 }
 
 .data_list table tbody tr:hover{
+	opacity: 0.7;
 	background-color:#99CCFF;
 }
 
+.data_list .userImage{
+	text-align:center;
+}
+.data_list .userImage img{
+	padding-top:10px;
+	width:200px;
+	height:250;
+}
+
+.data_list .nickName, .data_list .mood {
+	padding-top:10px;	
+	text-align:center;
+}
 .data_list .data_list_title{
 		font-size: 15px;
 		font-weight: bold;
@@ -56,5 +70,4 @@
 .data_list .typeOrDate ul li{
 	margin-top:10px;
 }
-
 

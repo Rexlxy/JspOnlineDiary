@@ -76,6 +76,11 @@
 						<img class="img"
 							src="${pageContext.request.contextPath }/images/user.png">&nbsp;&nbsp;个人中心
 					</div>
+					<div class="userImage">
+					<img src="${pageContext.request.contextPath }${user.imageName }">
+					</div>
+					<div class="nickName">昵称：${user.nickName }</div>
+					<div class="mood">个人签名：${user.mood }</div>
 				</div>
 				<div class="data_list">
 					<div class="data_list_title">
@@ -85,7 +90,7 @@
 					<div class="typeOrDate">
 					<ul>
 					<c:forEach var="diaryType" items="${diaryTypeCountList }">
-						<li><span><a href="#">${diaryType.typeName } (${diaryType.diaryCount })</a></span></li>
+						<li><span><a href="main?s_typeId=${diaryType.diaryTypeId }">${diaryType.typeName } (${diaryType.diaryCount })</a></span></li>
 						</c:forEach>
 					</ul>
 					</div>
@@ -98,7 +103,7 @@
 									<div class="typeOrDate">
 					<ul>
 					<c:forEach var="diary" items="${diaryCountList }">
-						<li><span><a href="#">${diary.releaseDateStr } (${diary.diaryCount })</a></span></li>
+						<li><span><a href="main?s_releaseDateStr=${diary.releaseDateStr }">${diary.releaseDateStr } (${diary.diaryCount })</a></span></li>
 						</c:forEach>
 					</ul>
 					</div>

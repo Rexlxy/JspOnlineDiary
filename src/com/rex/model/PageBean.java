@@ -8,7 +8,7 @@ public class PageBean {
 	private int pageSize;
 	// the index of the starting item
 	private int startIndex;
-	
+
 	public PageBean(int curPage, int pageSize) {
 		// TODO Auto-generated constructor stub
 		this.curPage = curPage;
@@ -30,7 +30,7 @@ public class PageBean {
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
 	}
-	
+
 	public int getStartIndex(){
 		return (curPage-1)*pageSize;
 	}

@@ -68,16 +68,16 @@ public class MainServlet extends HttpServlet {
 			e.printStackTrace();
 		} finally {
 			if(con!=null){
-			try {
-				con.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
-	
+
 	private String genPagination(int total, int curPage, int pageSize){
 		int totalPage = total%pageSize==0?total/pageSize:total/pageSize+1;
 		StringBuffer code = new StringBuffer();
@@ -88,7 +88,7 @@ public class MainServlet extends HttpServlet {
 		} else {
 			code.append("<li><a href='main?page="+(curPage-1)+"'><span>上一页</span></a> </li>");
 		}
-		
+
 		for(int i=curPage-2; i<=curPage+2; i++){
 			if(i<1 || i>totalPage){
 				continue;
@@ -99,7 +99,7 @@ public class MainServlet extends HttpServlet {
 				code.append("<li><a href='main?page="+i+"'><span>"+i+"</span></a> </li>");
 			}
 		}
-		
+
 		//the end part
 		if(curPage == totalPage){
 			code.append("<li class='disabled'><a href='#'><span>下一页</span></a> </li>");
@@ -107,9 +107,9 @@ public class MainServlet extends HttpServlet {
 			code.append("<li><a href='main?page="+(curPage+1)+"'><span>下一页</span></a> </li>");
 		}
 		code.append("<li><a href='main?page="+totalPage+"'><span>尾页</span></a> </li>");
-		
+
 		return code.toString();
 	}
 
-	
+
 }

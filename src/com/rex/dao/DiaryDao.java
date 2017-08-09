@@ -39,7 +39,7 @@ public class DiaryDao {
 		}
 		return diaryList;
 	}
-	
+
 	//get the number of diaries in the table
 	public int getDiaryCount(Connection con) throws SQLException{
 		String sql = "select count(*) as totalCount from t_diary t1,t_diarytype t2 where t1.typeId=t2.diaryTypeId";
@@ -51,7 +51,7 @@ public class DiaryDao {
 			return 0;
 		}
 	}
-	
+
 	public List<Diary> diaryCountList(Connection con) throws SQLException{
 		List<Diary> diaryCountList = new ArrayList<Diary>();
 		String sql = "SELECT DATE_FORMAT(releaseDate, '%Y年%m月') AS releaseDateStr, COUNT(DATE_FORMAT(releaseDate, '%Y年%m月')) AS total FROM t_diary GROUP BY DATE_FORMAT(releaseDate, '%Y年%m月') ORDER BY releaseDate DESC";
@@ -65,7 +65,7 @@ public class DiaryDao {
 		}
 		return diaryCountList;
 	}
-	
+
 	public Map<Integer, String> getTypeMap(Connection con) throws SQLException{
 		Map<Integer, String> typeMap = new HashMap<>();
 		String sql = "select * from t_diarytype";

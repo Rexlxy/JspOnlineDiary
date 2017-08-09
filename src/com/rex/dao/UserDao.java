@@ -21,6 +21,9 @@ public class UserDao {
 		ResultSet rs = pstmt.executeQuery();
 		if(rs.next()){
 			resultUser = new User(rs.getString("userName"),rs.getString("password"));
+			resultUser.setNickName(rs.getString("nickName"));
+			resultUser.setImageName(rs.getString("imageName"));
+			resultUser.setMood(rs.getString("mood"));
 		}
 		con.close();
 		return resultUser;

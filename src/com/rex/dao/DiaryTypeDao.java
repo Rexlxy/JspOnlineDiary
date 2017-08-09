@@ -23,7 +23,7 @@ public class DiaryTypeDao {
 			diaryType.setDiaryTypeId(rs.getInt("diaryTypeId"));
 			diaryType.setTypeName(rs.getString("typeName"));
 			diaryTypeCountList.add(diaryType);
-			}
+		}
 		return diaryTypeCountList;
 	}
 }

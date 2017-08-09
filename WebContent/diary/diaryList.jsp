@@ -41,7 +41,7 @@
 						style="font-size: 12.5px">&nbsp;<%=typeMap.get(curDiary.getTypeId())%></span></td>
 				</tr>
 			</c:forEach>
-			</table>
+	</table>
 	<nav aria-label="...">
 		<ul class="pager">${pageCode }</ul>
 	</nav>
