@@ -17,10 +17,18 @@ import com.rex.util.DateUtil;
 public class DiaryDao {
 
 	// get the list of diary objects
-	public List<Diary> getDiaries(Connection con, PageBean pageBean) throws SQLException, ParseException{
+	public List<Diary> getDiaries(Connection con, PageBean pageBean, Diary infoDiary) throws SQLException, ParseException{
 		List<Diary> diaryList = new ArrayList<Diary>();
-		StringBuffer stringBuffer = new StringBuffer("select * from t_diary t1,t_diarytype t2 where t1.typeId=t2.diaryTypeId ");
-		stringBuffer.append("order by t1.releaseDate DESC");
+		StringBuffer stringBuffer = new StringBuffer("select * from t_diary t1");
+		if(infoDiary.getTypeId() !=-1 ){
+			
+			stringBuffer.append(" where typeId="+infoDiary.getTypeId());
+		} else if(infoDiary.getReleaseDateStr() != null){
+			stringBuffer.append(" WHERE DATE_FORMAT(releaseDate, '%Y年%m月')='"+infoDiary.getReleaseDateStr()+"'");
+		} else {
+			stringBuffer.append(",t_diarytype t2 where t1.typeId=t2.diaryTypeId ");
+		}
+		stringBuffer.append(" order by t1.releaseDate DESC");
 		// only query limit amount of items
 		if(pageBean != null){
 			stringBuffer.append(" limit "+pageBean.getStartIndex()+","+pageBean.getPageSize());
@@ -41,8 +49,15 @@ public class DiaryDao {
 	}
 
 	//get the number of diaries in the table
-	public int getDiaryCount(Connection con) throws SQLException{
-		String sql = "select count(*) as totalCount from t_diary t1,t_diarytype t2 where t1.typeId=t2.diaryTypeId";
+	public int getDiaryCount(Connection con, Diary infoDiary) throws SQLException{
+		String sql ="";
+		if(infoDiary.getReleaseDateStr() !=  null){
+			sql = "select count(*) as totalCount from t_diary where DATE_FORMAT(releaseDate, '%Y年%m月')='"+infoDiary.getReleaseDateStr()+"'";
+		} else if(infoDiary.getTypeId()!=-1){
+			sql = "select count(*) as totalCount from t_diary where typeId="+infoDiary.getDiaryId();
+		} else {
+		sql= "select count(*) as totalCount from t_diary t1,t_diarytype t2 where t1.typeId=t2.diaryTypeId";
+		}
 		PreparedStatement pstmt = con.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		if(rs.next()){

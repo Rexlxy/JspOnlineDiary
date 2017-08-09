@@ -43,7 +43,21 @@ public class MainServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		// get or set the page number
 		String page = req.getParameter("page");
+		String s_releaseDateStr = req.getParameter("s_releaseDateStr");
+		String s_typeId = req.getParameter("s_typeId");
 		HttpSession session = req.getSession();
+		
+		Diary diary = new Diary(); //the diary storing information what kind of diaries we want
+		//check if we need to get diaries according to releaseDate 
+		if(StringUtil.isNotEmpty(s_releaseDateStr)){
+			s_releaseDateStr = new String(s_releaseDateStr.getBytes("ISO-8859-1"),"utf-8");
+			diary.setReleaseDateStr(s_releaseDateStr);
+		}
+		//check if we need to get diaries according to types
+		if(StringUtil.isNotEmpty(s_typeId)){
+			diary.setTypeId(Integer.parseInt(s_typeId));
+		}
+		
 		Connection con = null;
 		if(StringUtil.isEmpty(page)){
 			page = "1";
@@ -52,13 +66,13 @@ public class MainServlet extends HttpServlet {
 		try {
 			con = dbUtil.getConnection();
 			//get total number of diaries
-			int total = diaryDao.getDiaryCount(con);
+			int total = diaryDao.getDiaryCount(con, diary);
 			String pageCode = this.genPagination(total, Integer.parseInt(page), pageBean.getPageSize());
 			Map<Integer, String> typeMap = diaryDao.getTypeMap(con);
 			session.setAttribute("diaryTypeCountList", diaryTypeDao.diaryTypeCountList(con));
 			session.setAttribute("diaryCountList",diaryDao.diaryCountList(con));
 			//set request attributes (pass to the page)
-			req.setAttribute("diaryList", diaryDao.getDiaries(con, pageBean));
+			req.setAttribute("diaryList", diaryDao.getDiaries(con, pageBean, diary));
 			req.setAttribute("pageCode", pageCode);
 			req.setAttribute("typeMap", typeMap);
 			req.setAttribute("mainPage", "/diary/diaryList.jsp");
