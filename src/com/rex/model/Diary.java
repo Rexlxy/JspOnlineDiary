@@ -6,6 +6,7 @@ public class Diary {
 	
 	private int diaryId;
 	private String title;
+	private String typeName;
 	private String content;
 	private int typeId = -1;
 	private Date releaseDate;
@@ -19,6 +20,13 @@ public class Diary {
 	}
 	public String getTitle() {
 		return title;
+	}
+	
+	public String getTypeName() {
+		return typeName;
+	}
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 	public void setTitle(String title) {
 		this.title = title;

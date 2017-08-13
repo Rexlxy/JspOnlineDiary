@@ -13,21 +13,30 @@ import java.util.Map;
 import com.rex.model.Diary;
 import com.rex.model.PageBean;
 import com.rex.util.DateUtil;
+import com.rex.util.StringUtil;
 
 public class DiaryDao {
 
 	// get the list of diary objects
 	public List<Diary> getDiaries(Connection con, PageBean pageBean, Diary infoDiary) throws SQLException, ParseException{
 		List<Diary> diaryList = new ArrayList<Diary>();
-		StringBuffer stringBuffer = new StringBuffer("select * from t_diary t1");
-		if(infoDiary.getTypeId() !=-1 ){
-			
-			stringBuffer.append(" where typeId="+infoDiary.getTypeId());
-		} else if(infoDiary.getReleaseDateStr() != null){
-			stringBuffer.append(" WHERE DATE_FORMAT(releaseDate, '%Y年%m月')='"+infoDiary.getReleaseDateStr()+"'");
-		} else {
-			stringBuffer.append(",t_diarytype t2 where t1.typeId=t2.diaryTypeId ");
+		StringBuffer stringBuffer = new StringBuffer("select * from t_diary t1,t_diarytype t2 where t1.typeId=t2.diaryTypeId"); //默认搜索所有
+		
+		//模糊搜索的情况
+		if(StringUtil.isNotEmpty(infoDiary.getTitle())){
+			stringBuffer = new StringBuffer("select * from t_diary t1 where title like '%"+infoDiary.getTitle()+"%'");
 		}
+		//if we want diaries according to diary type
+		//按类别的情况
+		if(infoDiary.getTypeId() !=-1 ){
+			stringBuffer.append(" and typeId="+infoDiary.getTypeId());
+		}
+		//if we want diaries according to certain dates.
+		//按时间的情况
+		if(StringUtil.isNotEmpty(infoDiary.getReleaseDateStr())){
+			stringBuffer.append(" and DATE_FORMAT(releaseDate, '%Y年%m月')='"+infoDiary.getReleaseDateStr()+"'");
+		} 
+		//stringBuffer.append(",t_diarytype t2 where t1.typeId=t2.diaryTypeId ");
 		stringBuffer.append(" order by t1.releaseDate DESC");
 		// only query limit amount of items
 		if(pageBean != null){
@@ -50,15 +59,21 @@ public class DiaryDao {
 
 	//get the number of diaries in the table
 	public int getDiaryCount(Connection con, Diary infoDiary) throws SQLException{
-		String sql ="";
-		if(infoDiary.getReleaseDateStr() !=  null){
-			sql = "select count(*) as totalCount from t_diary where DATE_FORMAT(releaseDate, '%Y年%m月')='"+infoDiary.getReleaseDateStr()+"'";
-		} else if(infoDiary.getTypeId()!=-1){
-			sql = "select count(*) as totalCount from t_diary where typeId="+infoDiary.getDiaryId();
-		} else {
-		sql= "select count(*) as totalCount from t_diary t1,t_diarytype t2 where t1.typeId=t2.diaryTypeId";
+		String sql= "select count(*) as totalCount from t_diary t1,t_diarytype t2 where t1.typeId=t2.diaryTypeId";
+		
+		//模糊搜索的情况
+		if(StringUtil.isNotEmpty(infoDiary.getTitle())){
+			sql = "select count(*) as totalCount from t_diary where title like '%"+infoDiary.getTitle()+"%'";
 		}
-		PreparedStatement pstmt = con.prepareStatement(sql);
+		//按时间的情况
+		if(StringUtil.isNotEmpty(infoDiary.getReleaseDateStr())){
+			 sql = "select count(*) as totalCount from t_diary where DATE_FORMAT(releaseDate, '%Y年%m月')='"+infoDiary.getReleaseDateStr()+"'";
+		} 
+		//按类别的情况
+		if(infoDiary.getTypeId()!=-1){
+			sql = "select count(*) as totalCount from t_diary where typeId="+infoDiary.getTypeId();
+		} 
+		PreparedStatement pstmt = con.prepareStatement(sql.toString());
 		ResultSet rs = pstmt.executeQuery();
 		if(rs.next()){
 			return rs.getInt("totalCount");
@@ -67,6 +82,7 @@ public class DiaryDao {
 		}
 	}
 
+	//得到根据时间分的日志信息
 	public List<Diary> diaryCountList(Connection con) throws SQLException{
 		List<Diary> diaryCountList = new ArrayList<Diary>();
 		String sql = "SELECT DATE_FORMAT(releaseDate, '%Y年%m月') AS releaseDateStr, COUNT(DATE_FORMAT(releaseDate, '%Y年%m月')) AS total FROM t_diary GROUP BY DATE_FORMAT(releaseDate, '%Y年%m月') ORDER BY releaseDate DESC";
@@ -81,6 +97,34 @@ public class DiaryDao {
 		return diaryCountList;
 	}
 
+	//得到指定Id的日记
+	public Diary getDiaryById(Connection con, String diaryId) throws SQLException, ParseException{
+		Diary diary = new Diary();
+		String sql = "select * from t_diary t1,t_diarytype t2 where t1.typeId=t2.diaryTypeId and t1.diary_Id="+diaryId;
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		//pstmt.setString(1, diaryId);
+		ResultSet rs = pstmt.executeQuery();
+		if(rs.next()){
+			diary.setContent(rs.getString("content"));
+			diary.setReleaseDate(DateUtil.StringToDate(rs.getString("releaseDate"), "yyyy-MM-dd HH:mm:ss"));
+			diary.setTypeName(rs.getString("typeName"));
+			diary.setTitle(rs.getString("title"));
+			diary.setDiaryId(rs.getInt("diary_Id"));
+		}
+			return diary;
+	}
+	
+	//存日记
+	public boolean saveDiary(Connection con, Diary diary) throws SQLException{
+		String sql = "insert into t_diary values(null,?,?,?,?)";  //diary_Id, title, content, typeId, releaseDate
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setString(1, diary.getTitle());
+		pstmt.setString(2, diary.getContent());
+		pstmt.setString(3, Integer.toString(diary.getTypeId()));
+		pstmt.setString(4, DateUtil.dateToString(diary.getReleaseDate(), "yyyy-MM-dd HH:mm:ss"));
+		return pstmt.executeUpdate()==1;
+	}
+	
 	public Map<Integer, String> getTypeMap(Connection con) throws SQLException{
 		Map<Integer, String> typeMap = new HashMap<>();
 		String sql = "select * from t_diarytype";
@@ -91,4 +135,5 @@ public class DiaryDao {
 		}
 		return typeMap;
 	}
+	
 }

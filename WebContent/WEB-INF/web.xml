@@ -26,6 +26,16 @@
   <url-pattern>/main</url-pattern>
   </servlet-mapping>
   
+      <servlet>
+  <servlet-name>diaryServlet</servlet-name>
+  <servlet-class>com.rex.web.DiaryActionServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>diaryServlet</servlet-name>
+  <url-pattern>/diary</url-pattern>
+  </servlet-mapping>
+  
   <filter>
   <filter-name>loginFilter</filter-name>
   <filter-class>com.rex.filter.LoginFilterServlet</filter-class>

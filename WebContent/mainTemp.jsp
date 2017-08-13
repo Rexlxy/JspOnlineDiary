@@ -22,7 +22,7 @@
 </head>
 
 <body>
-	<nav class="navbar navbar-inverse avbar-fixed-top"">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
@@ -33,22 +33,22 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">召唤师日记本</a>
+			<a class="navbar-brand" href="main">召唤师日记本</a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="#"><span
+				<li class="active"><a href="main?all=true"><span
 						class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;主页 <span
 						class="sr-only">(current)</span></a></li>
 				<li><a href="#"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;写日记</a></li>
 				<li><a href="#"><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;日记分类管理</a></li>
 
-				<form class="navbar-form navbar-left" role="search">
+				<form class="navbar-form navbar-left" name="searchForm" method="post" action="main?all=true">
 					<div class="form-group">
-						<input type="text" class="form-control" placeholder="我的日记...">
+						<input type="text" id="search_key" name="search_key" class="form-control" placeholder="我的日记...">
 					</div>
 					<button type="submit" class="btn btn-default">
 						<span class="glyphicon glyphicon-search"></span>&nbsp;搜索日记
@@ -64,7 +64,7 @@
 	</div>
 	<!-- /.container-fluid --> </nav>
 
-	<div class="container-fluid">
+	<div class="container-fluid" style="padding-top:50px">
 		<div class="row">
 			<div class="col-md-9">
 				<jsp:include page="${mainPage }"></jsp:include>

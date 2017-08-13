@@ -43,21 +43,71 @@ public class MainServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		// get or set the page number
 		String page = req.getParameter("page");
+		String all = req.getParameter("all");
+		String search_key = req.getParameter("search_key");
 		String s_releaseDateStr = req.getParameter("s_releaseDateStr");
 		String s_typeId = req.getParameter("s_typeId");
 		HttpSession session = req.getSession();
 		
 		Diary diary = new Diary(); //the diary storing information what kind of diaries we want
+		/*
+		if(StringUtil.isEmpty(s_releaseDateStr)&&StringUtil.isEmpty(s_typeId)&&StringUtil.isEmpty(search_key)){
+			clearSession(session);
+		}
+		*/
+		//全部
+		if("true".equals(all)){
+			//模糊搜索
+			if(StringUtil.isNotEmpty(search_key)){
+				diary.setTitle(search_key);
+			}
+			session.setAttribute("search_key", search_key);
+			//去除session存的时间和类别信息
+			session.removeAttribute("releaseDateStr");
+			session.removeAttribute("typeId");
+		} else {
 		//check if we need to get diaries according to releaseDate 
+			//根据时间显示所有
 		if(StringUtil.isNotEmpty(s_releaseDateStr)){
 			s_releaseDateStr = new String(s_releaseDateStr.getBytes("ISO-8859-1"),"utf-8");
 			diary.setReleaseDateStr(s_releaseDateStr);
-		}
-		//check if we need to get diaries according to types
-		if(StringUtil.isNotEmpty(s_typeId)){
-			diary.setTypeId(Integer.parseInt(s_typeId));
+			session.setAttribute("s_releaseDateStr", s_releaseDateStr);
+			session.removeAttribute("s_typeId");
+			session.removeAttribute("search_key");
 		}
 		
+		//check if we need to get diaries according to types
+		//根据类别显示所有
+		if(StringUtil.isNotEmpty(s_typeId)){
+			diary.setTypeId(Integer.parseInt(s_typeId));
+			session.setAttribute("s_typeId", s_typeId);
+			session.removeAttribute("s_releaseDateStr");
+			session.removeAttribute("search_key");
+		}
+		
+		//根据时间，翻页
+		if(StringUtil.isEmpty(s_releaseDateStr)){
+			Object o = session.getAttribute("s_releaseDateStr");
+			if(o != null){
+				diary.setReleaseDateStr((String)o);
+			}
+		}
+		//根据类别，翻页
+		if(StringUtil.isEmpty(s_typeId)){
+			Object o = session.getAttribute("s_typeId");
+			if(o != null){
+				diary.setTypeId(Integer.parseInt((String)o));
+			}
+		}
+		
+		//模糊搜索，翻页
+		if(StringUtil.isEmpty(search_key)){
+			Object o = session.getAttribute("search_key");
+			if(o != null){
+				diary.setTitle((String)o);
+			}
+		}
+		}
 		Connection con = null;
 		if(StringUtil.isEmpty(page)){
 			page = "1";
@@ -91,9 +141,15 @@ public class MainServlet extends HttpServlet {
 			}
 		}
 	}
+	
+	private void clearSession(HttpSession session){
+		session.removeAttribute("s_releaseDateStr");
+		session.removeAttribute("s_typeId");
+		session.removeAttribute("search_key");
+	}
 
 	private String genPagination(int total, int curPage, int pageSize){
-		int totalPage = total%pageSize==0?total/pageSize:total/pageSize+1;
+		int totalPage = total%pageSize==0?(total/pageSize):(total/pageSize)+1;
 		StringBuffer code = new StringBuffer();
 		//the beginning part
 		code.append("<li><a href='main?page=1'><span>首页</span></a> </li>");
