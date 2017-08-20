@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<div>
+		<h3>消灭星星-屌丝版</h3>
+		<canvas style="background-color:grey" id="myCanvas" width = 400px height = 400px></canvas>
+
+		<script type="text/javascript">
+			var Scene = function(blocks){
+				var s = {
+				}
+				var block = Block()
+				s.blocks = blocks
+				s.canvas = document.getElementById("myCanvas")
+				s.context = s.canvas.getContext('2d')
+
+				s.draw = function(image,x,y){
+					s.context.fillStyle = image.color
+					s.context.fillRect(x, y, image.edge, image.edge)
+					s.context.strokeStyle = "black"
+					s.context.strokeRect(x, y+1, image.edge-1, image.edge-1)
+				}
+
+				s.drawPanel = function(){
+					for(var i=0;i<s.blocks.length;i++){
+						for(var j=0; j<s.blocks[i].length; j++){
+							if(s.blocks[i][j].alive){
+								s.draw(s.blocks[i][j],i*s.blocks[i][j].edge, j*s.blocks[i][j].edge)
+							}
+						}
+					}
+				}
+
+				s.hasSameNeighbour = function(i, j){
+					var color = s.blocks[i][j].color
+					if(i!=0&&s.blocks[i-1][j].alive&&s.blocks[i-1][j].color == color){
+						return true
+					}
+					if(i!=s.blocks.length-1&&s.blocks[i+1][j].alive&&s.blocks[i+1][j].color == color){
+						return true
+					}
+					if(j!=0&&s.blocks[i][j-1].alive&&s.blocks[i][j-1].color == color){
+						return true
+					}
+					if(j!=s.blocks[0].length-1&&s.blocks[i][j+1].alive&&s.blocks[i][j+1].color == color){
+						return true
+					}
+					return false
+
+				}
+
+				s.checkGravity = function(){
+					for(var i=0; i<s.blocks.length; i++){
+						var aliveList = []
+						for(var j=s.blocks[i].length-1; j>=0; j--){
+							if(s.blocks[i][j].alive){
+								aliveList.push(s.blocks[i][j])
+							}
+						}
+						for(var k=s.blocks[i].length-1; k>=0; k--){
+							if(aliveList.length != 0){
+								s.blocks[i][k] = aliveList.shift()
+								s.blocks[i][k].x = i*s.blocks[i][k].edge
+								s.blocks[i][k].y = k*s.blocks[i][k].edge
+							} else {
+								var deadBlock = Block("grey")
+								deadBlock.alive = false
+								s.blocks[i][k] = deadBlock
+							}
+						}
+					}
+				}
+
+				s.shiftLeft = function(){
+					for( var i=s.blocks.length-1.; i>=0; i--){
+						if(!s.blocks[i][s.blocks.length-1].alive){
+							console.log("splice", i)
+							s.blocks.splice(i,1)
+						}
+					}
+				}
+
+				s.exploreFromBlock = function(i, j){
+					var color = s.blocks[i][j].color
+					s.blocks[i][j].alive = false
+				//	console.log(i, j)
+					if(i!=0 && s.blocks[i-1][j].color == color && s.blocks[i-1][j].alive){
+						s.blocks[i-1][j].alive = false
+						s.exploreFromBlock(i-1, j)
+					}
+					if(j!=0 && s.blocks[i][j-1].color == color && s.blocks[i][j-1].alive){
+						s.blocks[i][j-1].alive = false
+						s.exploreFromBlock(i, j-1)
+					}
+					if(i!=s.blocks.length-1 && s.blocks[i+1][j].color == color && s.blocks[i+1][j].alive){
+						s.blocks[i+1][j].alive = false
+						s.exploreFromBlock(i+1, j)
+					}
+					if(j!=s.blocks.length-1 && s.blocks[i][j+1].color == color && s.blocks[i][j+1].alive){
+						s.blocks[i][j+1].alive = false
+						s.exploreFromBlock(i, j+1)
+					}
+					return
+				}
+
+				s.update = function(){
+					s.context.fillStyle = "grey"
+					s.context.fillRect(0, 0, 400, 400)
+					s.drawPanel()
+				}
+
+				s.kill = function(block){
+					s.context.fillStyle = "grey"
+					s.context.fillRect(block.x, block.y, block.edge, block.edge+1)
+				}
+				return s
+			}
+
+			var Block = function(inColor){
+				var o = {
+					x:0,
+					y:0,
+					edge:40,
+					alive:true,
+				}
+
+				o.contains = function(coordinate){
+					if(coordinate.x>=o.x && coordinate.x<=o.x+o.edge){
+						if(coordinate.y>= o.y && coordinate.y <= o.y+o.edge){
+							return true
+						}
+					}
+					return false
+				}
+				o.color = inColor
+				return o
+			}
+
+
+
+			var colors = ["blue", "red", "yellow", "green"]
+			var blocks = []
+			for(var i=0; i<10; i++){
+				var list = []
+				for(var j=0; j<10; j++){
+					var block = new Block(colors[parseInt(Math.random()*4)])
+					list.push(block)
+				}
+				blocks.push(list)
+			}
+
+			var scene = Scene(blocks)
+			scene.drawPanel()
+
+			function getPointOnCanvas(canvas, x, y) {
+
+				var bbox =canvas.getBoundingClientRect();
+
+				return { x: x- bbox.left *(canvas.width / bbox.width),
+
+					y:y - bbox.top  * (canvas.height / bbox.height)
+
+				};
+
+			}
+
+			var myCanvas = document.getElementById("myCanvas")
+			myCanvas.addEventListener('mousedown', function(event){
+				var coordinate = getPointOnCanvas(myCanvas, event.clientX, event.clientY )
+
+				for(var i=0;i<scene.blocks.length;i++){
+					for(var j=0; j<scene.blocks[i].length; j++){
+						if(scene.blocks[i][j].contains(coordinate)&&scene.blocks[i][j].alive){
+							if(scene.hasSameNeighbour(i,j)){
+							scene.exploreFromBlock(i,j)
+						}
+						}
+					}
+				}
+				scene.checkGravity()
+				scene.shiftLeft()
+				scene.update()
+			})
+
+
+		</script>
+	</div>
+</body>
+</html>

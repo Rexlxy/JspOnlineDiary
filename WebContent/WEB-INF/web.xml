@@ -11,9 +11,19 @@
   <servlet-class>com.rex.web.LoginServlet</servlet-class>
   </servlet>
   
-  <servlet-mapping>
+    <servlet-mapping>
   <servlet-name>loginServlet</servlet-name>
   <url-pattern>/login</url-pattern>
+  </servlet-mapping>	
+  
+   <servlet>
+  <servlet-name>gameServlet</servlet-name>
+  <servlet-class>com.rex.web.GameServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>gameServlet</servlet-name>
+  <url-pattern>/game</url-pattern>
   </servlet-mapping>	
   
     <servlet>

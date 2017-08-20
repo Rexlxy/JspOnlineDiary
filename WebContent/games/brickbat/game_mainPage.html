@@ -1,0 +1,61 @@
+  <html>
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="paddle.js"></script>
+    <script src="ball.js"></script>
+    <script src="Brick.js"></script>
+    <script src="Util.js"></script>
+    <script src="game.js"></script>
+    <script src="scene.js"></script>
+    <title>REX弹球游戏</title>
+    <script type="text/javascript">
+      function restart(){
+        window.location.reload()
+      }
+    </script>
+    <style type="text/css">
+      .myCanvas{
+        border: 1px black solid;
+      }
+    </style>
+
+  </head>
+
+  <body style="background-color:#CCCCCC">
+
+    <div style="float:left;background-color:#E0FFFF">
+      <div style="padding-left: 30px;padding-right:30px;padding-bottom: 20px">
+        <h1 style="text-align:center">打砖块</h1>
+          <h5 style="text-align:center;color:grey" id="status">按f开始游戏</h5>
+        <canvas id="myCanvas" width="400px" height="400px" class="myCanvas" style="background-color:#F0FFF0"></canvas>
+        <h5>左右方向键或'a'和'd'左右移动挡板</h5>
+        <button onclick="restart()">Restart</button>
+        <span style="padding-left:50px"><input type="checkbox" id="godMode">无敌模式</input></span>
+      </div>
+    </div>
+    <script src="main.js"></script>
+
+    <div style="float:left;padding-right:50px;background-color:#FFFACD">
+      <div style="padding-left:20px;padding-bottom: 20px">
+        <h3> 选择你的球：</h3>
+        小球: <img src="${pageContext.request.contextPath }/games/brickbat/images/ball.png" onclick="ball.setImage('images/ball.png')">
+        红色大球:<img src="images/ball4.png" onclick="ball.setImage('images/ball4.png')">
+        周楠:<img src="images/ball2.png"onclick="ball.setImage('images/ball2.png')">
+      </div>
+    </div>
+    <!--
+    <div style="float:left;padding-right:50px;background-color:#FFCC99">
+      <div style="padding-left:20px;padding-bottom: 20px">
+        <h3> 閫夋嫨浣犵殑鎸℃澘锛�</h3>
+        榛戦瓊:
+        <img src="images/paddle.png" onclick="paddle.setImage('images/paddle.png')">
+        绮夌孩:
+        <img src="images/paddle2.png" onclick="paddle.setImage('images/paddle2.png')">
+        灏忔湅鍙�:
+        <img src="images/paddle4.png"onclick="paddle.setImage('images/paddle4.png')">
+      </div>
+    </div>
+  -->
+  </body>
+
+  </html>

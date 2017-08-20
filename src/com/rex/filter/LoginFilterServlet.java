@@ -32,7 +32,12 @@ public class LoginFilterServlet implements Filter {
 		User user = (User) session.getAttribute("user");
 		String path = request.getServletPath();
 		System.out.println("Now filtering:"+path);
-		if(user==null&& !path.contains("login") &&!path.contains("images")&&!path.contains("bootstrap3")){
+		if(user==null&&
+				!path.contains("login") &&
+				!path.contains("images")&&
+				!path.contains("bootstrap3")&&
+				!path.contains("game")
+				){
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		} else {
 			filterChain.doFilter(servletRequest, servletResponse);
