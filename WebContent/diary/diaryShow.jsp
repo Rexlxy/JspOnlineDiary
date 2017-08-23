@@ -8,9 +8,25 @@
 	<div class="data_list_title">
 		<img class="img"
 			src="${pageContext.request.contextPath }/images/list.png">&nbsp;&nbsp;日志内容
-	</div>
-	 <div class="diary_title"><h2>${diaryToShow.title }</h2></div>
-	 <div class="diary_info"> 日志时间：<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" type="date" value="${diaryToShow.releaseDate }" />&nbsp;&nbsp;日志类别：${diaryToShow.typeName }</div>
-	 <div class="diary_content">${diaryToShow.content }</div>
 
+	</div>
+	<div class="diary_title">
+		<h2>${diaryToShow.title }</h2>
+	</div>
+	<div class="diary_info">
+		日志时间：
+		<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" type="date"
+			value="${diaryToShow.releaseDate }" />
+		&nbsp;&nbsp;日志类别：${diaryToShow.typeName }
+	</div>
+	<div class="diary_content">${diaryToShow.content }</div>
+	<!-- 按钮 -->
+	<div style="text-align: right">
+		<button type="button" class="btn btn-success"
+			onclick="javascript:history.back()">修改日志</button>
+		<button type="button" class="btn btn-success"
+			onclick="javascript:history.back()">返回</button>
+		<button type="button" class="btn btn-danger"
+			onclick="javascript:history.back()">删除日志</button>
+	</div>
 </div>

@@ -35,6 +35,7 @@ public class DiaryActionServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		req.setCharacterEncoding("utf-8");
 		String action = req.getParameter("action");
+		System.out.println("action is :"+action);
 		if("showDiary".equals(action)){
 			try {
 				displayDiary(req, resp);
@@ -42,6 +43,30 @@ public class DiaryActionServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		else if("preSave".equals(action)){
+			req.setAttribute("mainPage", "/diary/diaryCreate.jsp");
+			req.getRequestDispatcher("mainTemp.jsp").forward(req, resp);
+		}
+		else if("save".equals(action)){
+			saveDiary(req, resp);
+		}
+	}
+	
+	private void saveDiary(HttpServletRequest req, HttpServletResponse resp){
+		Connection con = null;
+		String title = req.getParameter("diary_title");
+		String content = req.getParameter("content");
+		String typeId = req.getParameter("typeId");
+		Diary diary = new Diary(title, content, Integer.parseInt(typeId));
+		try {
+			con = dbUtil.getConnection();
+			diaryDao.saveDiary(con, diary);
+			req.setAttribute("mainPage", "/diary/diaryShow.jsp");
+			req.getRequestDispatcher("mainTemp.jsp").forward(req, resp);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}

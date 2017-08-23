@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,7 +122,7 @@ public class DiaryDao {
 		pstmt.setString(1, diary.getTitle());
 		pstmt.setString(2, diary.getContent());
 		pstmt.setString(3, Integer.toString(diary.getTypeId()));
-		pstmt.setString(4, DateUtil.dateToString(diary.getReleaseDate(), "yyyy-MM-dd HH:mm:ss"));
+		//pstmt.setString(4, DateUtil.dateToString(new Date(), "yyyy-MM-dd HH:mm:ss"));
 		return pstmt.executeUpdate()==1;
 	}
 	

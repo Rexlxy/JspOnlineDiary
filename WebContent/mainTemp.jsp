@@ -19,13 +19,17 @@
 </script>
 <script
 	src="${pageContext.request.contextPath }/bootstrap3/js/bootstrap.min.js"></script>
-	<!--  游戏部分 -->
-	    <script src="${pageContext.request.contextPath }/games/brickbat/paddle.js"></script>
-    <script src="${pageContext.request.contextPath }/games/brickbat/ball.js"></script>
-    <script src="${pageContext.request.contextPath }/games/brickbat/Brick.js"></script>
-    <script src="${pageContext.request.contextPath }/games/brickbat/Util.js"></script>
-    <script src="${pageContext.request.contextPath }/games/brickbat/game.js"></script>
-    <script src="${pageContext.request.contextPath }/games/brickbat/scene.js"></script>
+<!--  游戏部分 -->
+<script
+	src="${pageContext.request.contextPath }/games/brickbat/paddle.js"></script>
+<script src="${pageContext.request.contextPath }/games/brickbat/ball.js"></script>
+<script
+	src="${pageContext.request.contextPath }/games/brickbat/Brick.js"></script>
+<script src="${pageContext.request.contextPath }/games/brickbat/Util.js"></script>
+<script src="${pageContext.request.contextPath }/games/brickbat/game.js"></script>
+<script
+	src="${pageContext.request.contextPath }/games/brickbat/scene.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/ckeditor/ckeditor.js"></script>
 </head>
 
 <body>
@@ -50,12 +54,16 @@
 				<li class="active"><a href="main?all=true"><span
 						class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;主页 <span
 						class="sr-only">(current)</span></a></li>
-				<li><a href="#"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;写日记</a></li>
+				<li><a href="diary?action=preSave"><span
+						class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;写日记</a></li>
 				<li><a href="#"><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;日记分类管理</a></li>
-				<li><a href="game"><span class="glyphicon glyphicon-sunglasses"></span>&nbsp;&nbsp;弹球游戏</a></li>
-				<form class="navbar-form navbar-left" name="searchForm" method="post" action="main?all=true">
+				<li><a href="game"><span
+						class="glyphicon glyphicon-sunglasses"></span>&nbsp;&nbsp;弹球游戏</a></li>
+				<form class="navbar-form navbar-left" name="searchForm"
+					method="post" action="main?all=true">
 					<div class="form-group">
-						<input type="text" id="search_key" name="search_key" class="form-control" placeholder="我的日记...">
+						<input type="text" id="search_key" name="search_key"
+							class="form-control" placeholder="我的日记...">
 					</div>
 					<button type="submit" class="btn btn-default">
 						<span class="glyphicon glyphicon-search"></span>&nbsp;搜索日记
@@ -71,7 +79,7 @@
 	</div>
 	<!-- /.container-fluid --> </nav>
 
-	<div class="container-fluid" style="padding-top:50px">
+	<div class="container-fluid" style="padding-top: 50px">
 		<div class="row">
 			<div class="col-md-9">
 				<jsp:include page="${mainPage }"></jsp:include>
@@ -84,7 +92,7 @@
 							src="${pageContext.request.contextPath }/images/user.png">&nbsp;&nbsp;个人中心
 					</div>
 					<div class="userImage">
-					<img src="${pageContext.request.contextPath }${user.imageName }">
+						<img src="${pageContext.request.contextPath }${user.imageName }">
 					</div>
 					<div class="nickName">昵称：${user.nickName }</div>
 					<div class="mood">个人签名：${user.mood }</div>
@@ -95,11 +103,13 @@
 							src="${pageContext.request.contextPath }/images/drawer.png">&nbsp;&nbsp;按日记类别
 					</div>
 					<div class="typeOrDate">
-					<ul>
-					<c:forEach var="diaryType" items="${diaryTypeCountList }">
-						<li><span><a href="main?s_typeId=${diaryType.diaryTypeId }">${diaryType.typeName } (${diaryType.diaryCount })</a></span></li>
-						</c:forEach>
-					</ul>
+						<ul>
+							<c:forEach var="diaryType" items="${diaryTypeCountList }">
+								<li><span><a
+										href="main?s_typeId=${diaryType.diaryTypeId }">${diaryType.typeName }
+											(${diaryType.diaryCount })</a></span></li>
+							</c:forEach>
+						</ul>
 					</div>
 				</div>
 				<div class="data_list">
@@ -107,12 +117,14 @@
 						<img class="img"
 							src="${pageContext.request.contextPath }/images/calendar.png">&nbsp;&nbsp;按日记时间
 					</div>
-									<div class="typeOrDate">
-					<ul>
-					<c:forEach var="diary" items="${diaryCountList }">
-						<li><span><a href="main?s_releaseDateStr=${diary.releaseDateStr }">${diary.releaseDateStr } (${diary.diaryCount })</a></span></li>
-						</c:forEach>
-					</ul>
+					<div class="typeOrDate">
+						<ul>
+							<c:forEach var="diary" items="${diaryCountList }">
+								<li><span><a
+										href="main?s_releaseDateStr=${diary.releaseDateStr }">${diary.releaseDateStr }
+											(${diary.diaryCount })</a></span></li>
+							</c:forEach>
+						</ul>
 					</div>
 				</div>
 			</div>

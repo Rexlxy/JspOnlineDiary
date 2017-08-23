@@ -12,6 +12,18 @@ public class Diary {
 	private Date releaseDate;
 	private String releaseDateStr;
 	private int diaryCount;
+	
+	
+	public Diary() {
+	}
+	
+	
+	public Diary(String title, String content, int typeId) {
+		super();
+		this.title = title;
+		this.content = content;
+		this.typeId = typeId;
+	}
 	public int getDiaryId() {
 		return diaryId;
 	}
