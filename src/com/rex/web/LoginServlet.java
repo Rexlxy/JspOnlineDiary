@@ -77,8 +77,8 @@ public class LoginServlet extends HttpServlet{
 	private void setCookie(HttpServletResponse resp, String userName, String password){
 		Cookie userNameAndPwd = new Cookie("userNameAndPwd", userName+"-"+password);
 		//store the cookie for 1 week
-		userNameAndPwd.setMaxAge(1*60*60*24*7);
-		resp.addCookie(userNameAndPwd);
+		userNameAndPwd.setMaxAge(1*60);
+		resp.addCookie(userNameAndPwd);	
 		System.out.println("Successfully set cookie!!!");
 	}
 	

@@ -29,7 +29,7 @@ function checkForm(){
 	<div class="data_list_title">
 		<span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;写日记
 	</div>
-	<form action="" method="post" onsubmit="return checkForm()">
+	<form action="diary?action=fuck" method="post" onsubmit="return checkForm()">
 	<div class="diary_title_input"><input  type="text" id="diary_title" name="diary_title" placeholder="日记标题"/></div>
    	<div>    
 	<textarea id="content" name="content" class="ckeditor">${diary.content }</textarea>

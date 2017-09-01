@@ -31,7 +31,6 @@ public class LoginFilterServlet implements Filter {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		String path = request.getServletPath();
-		//System.out.println("Now filtering:"+path);
 		if(user==null&&
 				!path.contains("login") &&
 				!path.contains("images")&&
