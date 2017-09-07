@@ -35,7 +35,6 @@ public class DiaryActionServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		req.setCharacterEncoding("utf-8");
 		String action = req.getParameter("action");
-		System.out.println("action is :"+action);
 		if("showDiary".equals(action)){
 			try {
 				displayDiary(req, resp);
@@ -61,7 +60,11 @@ public class DiaryActionServlet extends HttpServlet {
 		Diary diary = new Diary(title, content, Integer.parseInt(typeId));
 		try {
 			con = dbUtil.getConnection();
-			diaryDao.saveDiary(con, diary);
+			if(diaryDao.saveDiary(con, diary)){
+				System.out.println("成功写入diary");
+			} else {
+				System.out.println("写入失败");
+			};
 			req.setAttribute("mainPage", "/diary/diaryShow.jsp");
 			req.getRequestDispatcher("mainTemp.jsp").forward(req, resp);
 		} catch (Exception e) {

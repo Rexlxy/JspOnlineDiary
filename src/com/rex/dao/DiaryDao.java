@@ -117,12 +117,13 @@ public class DiaryDao {
 	
 	//存日记
 	public boolean saveDiary(Connection con, Diary diary) throws SQLException{
-		String sql = "insert into t_diary values(null,?,?,?,?)";  //diary_Id, title, content, typeId, releaseDate
+		String sql = "insert into t_diary (title, content, typeId, releaseDate) values(?,?,?,?)";  //diary_Id, title, content, typeId, releaseDate
 		PreparedStatement pstmt = con.prepareStatement(sql);
 		pstmt.setString(1, diary.getTitle());
 		pstmt.setString(2, diary.getContent());
 		pstmt.setString(3, Integer.toString(diary.getTypeId()));
-		//pstmt.setString(4, DateUtil.dateToString(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		pstmt.setString(4, DateUtil.dateToString(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		System.out.println("saveDiary:正在写入diary。。。。");
 		return pstmt.executeUpdate()==1;
 	}
 	

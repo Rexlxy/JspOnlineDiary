@@ -20,7 +20,7 @@
 
 	<input
 		name="${pageContext.request.contextPath }/games/brickbat/images/"
-		id="main_path" />
+		id="main_path" type="hidden">
 	<script>
 	var mainPath = document.getElementById("main_path").getAttribute("name")
 		var imageSrc = {

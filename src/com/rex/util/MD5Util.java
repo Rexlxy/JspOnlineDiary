@@ -19,5 +19,6 @@ public class MD5Util {
 	public static void main(String[] args) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		System.out.println(encodePwdByMD5("1234"));
 		System.out.println(encodePwdByMD5("l1x2y3456"));
+		System.out.println(encodePwdByMD5("l22222"));
 	}
 }
