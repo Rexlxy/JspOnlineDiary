@@ -106,7 +106,7 @@ public class DiaryDao {
 		//pstmt.setString(1, diaryId);
 		ResultSet rs = pstmt.executeQuery();
 		if(rs.next()){
-			diary.setContent(rs.getString("content"));
+			diary.setContent(rs.getString("content"));		
 			diary.setReleaseDate(DateUtil.StringToDate(rs.getString("releaseDate"), "yyyy-MM-dd HH:mm:ss"));
 			diary.setTypeName(rs.getString("typeName"));
 			diary.setTitle(rs.getString("title"));
@@ -116,15 +116,36 @@ public class DiaryDao {
 	}
 	
 	//存日记
-	public boolean saveDiary(Connection con, Diary diary) throws SQLException{
+	public int saveDiary(Connection con, Diary diary) throws SQLException{
 		String sql = "insert into t_diary (title, content, typeId, releaseDate) values(?,?,?,?)";  //diary_Id, title, content, typeId, releaseDate
 		PreparedStatement pstmt = con.prepareStatement(sql);
 		pstmt.setString(1, diary.getTitle());
 		pstmt.setString(2, diary.getContent());
 		pstmt.setString(3, Integer.toString(diary.getTypeId()));
 		pstmt.setString(4, DateUtil.dateToString(new Date(), "yyyy-MM-dd HH:mm:ss"));
-		System.out.println("saveDiary:正在写入diary。。。。");
-		return pstmt.executeUpdate()==1;
+		System.out.println("saveDiary:正在写入diary.....");
+		return pstmt.executeUpdate();
+	}
+	
+	//删除日记
+	public int removeDiaryById(Connection con, String diaryId) throws SQLException{
+		String sql = "DELETE FROM t_diary WHERE diary_Id="+diaryId;
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		System.out.println("removeDiaryById:正在删除diary.....");
+		return pstmt.executeUpdate();
+	}
+	
+	//更新日记
+	public int update(Connection con, Diary diary) throws SQLException{
+		String sql = "UPDATE t_diary SET title=?, content=?, typeId=?, releaseDate=? WHERE diary_Id=?";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setString(1, diary.getTitle());
+		pstmt.setString(2, diary.getContent());
+		pstmt.setString(3, Integer.toString(diary.getTypeId()));
+		pstmt.setString(4, DateUtil.dateToString(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		pstmt.setString(5, Integer.toString(diary.getDiaryId()));
+		System.out.println("update:正在更新diary.....");
+		return pstmt.executeUpdate();
 	}
 	
 	public Map<Integer, String> getTypeMap(Connection con) throws SQLException{

@@ -50,11 +50,9 @@ public class MainServlet extends HttpServlet {
 		HttpSession session = req.getSession();
 		
 		Diary diary = new Diary(); //the diary storing information what kind of diaries we want
-		/*
 		if(StringUtil.isEmpty(s_releaseDateStr)&&StringUtil.isEmpty(s_typeId)&&StringUtil.isEmpty(search_key)){
 			clearSession(session);
 		}
-		*/
 		//È«²¿
 		if("true".equals(all)){
 			//Ä£ºýËÑË÷

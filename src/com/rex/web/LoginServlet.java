@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.rex.dao.UserDao;
 import com.rex.model.User;
 import com.rex.util.DbUtil;
+import com.rex.util.PropertiesUtil;
 
 public class LoginServlet extends HttpServlet{
 	
@@ -76,8 +77,8 @@ public class LoginServlet extends HttpServlet{
 	
 	private void setCookie(HttpServletResponse resp, String userName, String password){
 		Cookie userNameAndPwd = new Cookie("userNameAndPwd", userName+"-"+password);
-		//store the cookie for 1 week
-		userNameAndPwd.setMaxAge(1*60);
+		//store the cookie 
+		userNameAndPwd.setMaxAge(Integer.parseInt(PropertiesUtil.getValue("cookieAge")));
 		resp.addCookie(userNameAndPwd);	
 		System.out.println("Successfully set cookie!!!");
 	}

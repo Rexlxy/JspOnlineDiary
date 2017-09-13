@@ -56,7 +56,7 @@
 						class="sr-only">(current)</span></a></li>
 				<li><a href="diary?action=preSave"><span
 						class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;写日记</a></li>
-				<li><a href="#"><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;日记分类管理</a></li>
+				<li><a href="diaryTypeManage?action=showTypes"><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;日记分类管理</a></li>
 				<li><a href="game"><span
 						class="glyphicon glyphicon-sunglasses"></span>&nbsp;&nbsp;弹球游戏</a></li>
 				<form class="navbar-form navbar-left" name="searchForm"
